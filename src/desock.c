@@ -18,7 +18,7 @@
 #define PREENY_MAX_FD 8192
 #define PREENY_SOCKET_OFFSET 100
 #define READ_BUF_SIZE 512
-#define TIMEOUT 1
+#define TIMEOUT 2
 
 #define PREENY_SOCKET(x) (x + PREENY_SOCKET_OFFSET)
 
@@ -139,6 +139,19 @@ preeny_socket_sync_to_front(void *fd)
     int front_fd = (int)fd;
     int back_fd = PREENY_SOCKET(front_fd);
     preeny_socket_sync_loop(0, back_fd);
+    /* // send quit to beanstalkd */
+    /* char *buf = "\r\nquit\r\n"; */
+    /* unsigned int n = 0; */
+    /* while (n < sizeof(buf)) { */
+    /*     int r = write(back_fd, buf+n, sizeof(buf) - n); */
+    /*     if (r < 0) { */
+    /*         char error_buf[1024]; */
+    /*         strerror_r(errno, error_buf, 1024); */
+    /*         preeny_info("sending quit to %d has failed: %s\n", back_fd, error_buf); */
+    /*         break; */
+    /*     } */
+    /*     n += r; */
+    /* } */
     return NULL;
 }
 
